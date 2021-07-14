@@ -5,7 +5,22 @@ import { ProfileRelationsBoxWrapper } from '../components/ProfileRelations';
 import OrkutNostalgicIconSet from '../components/OrkutNostalgicIconSet';
 
 const usuarioAleatorio = 'joaom00';
-const pessoasFavoritas = ['rodrigobranas', 'willianjusten', 'kentcdodds', 'tannerlinsley', 'tjdevries', 'leerob'];
+const pessoasFavoritas = [
+  'rodrigobranas',
+  'willianjusten',
+  'kentcdodds',
+  'tannerlinsley',
+  'tjdevries',
+  'leerob',
+];
+
+const stats = {
+  recados: 101,
+  fotos: 102,
+  videos: 103,
+  fas: 104,
+  mensagens: 105,
+};
 
 function ProfileSidebar({ githubUser }) {
   return (
@@ -31,7 +46,7 @@ export default function Home() {
           <Box>
             <h1 className="title">Bem vindo(a)</h1>
 
-            <OrkutNostalgicIconSet />
+            <OrkutNostalgicIconSet {...stats} />
           </Box>
         </div>
         <div
