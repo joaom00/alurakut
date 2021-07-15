@@ -1,8 +1,13 @@
+import React from 'react';
+import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import AlurakutMenu from '../components/AlurakutMenu';
 import MainGrid from '../components/MainGrid';
 import Box from '../components/Box';
-import { ProfileRelationsBoxWrapper } from '../components/ProfileRelations';
+import ProfileSidebar from '../components/ProfileSidebar';
+import ProfileRelations from '../components/ProfileRelations';
 import OrkutNostalgicIconSet from '../components/OrkutNostalgicIconSet';
+
+import * as S from '../styles/home';
 
 const usuarioAleatorio = 'joaom00';
 const pessoasFavoritas = [
@@ -22,54 +27,62 @@ const stats = {
   mensagens: 105,
 };
 
-function ProfileSidebar({ githubUser }) {
-  return (
-    <Box>
-      <img
-        src={`https://github.com/${githubUser}.png`}
-        style={{ borderRadius: '8px' }}
-      />
-    </Box>
-  );
-}
-
 export default function Home() {
+  const [title, setTitle] = React.useState('');
+  const [image, setImage] = React.useState('');
+
+  function handleSubmit(event) {
+    event.preventDefault();
+  }
+
   return (
     <>
       <AlurakutMenu githubUser={usuarioAleatorio} />
       <MainGrid>
-        {/* <Box style="grid-area: profileArea;"> */}
-        <div className="profileArea" style={{ gridArea: 'profileArea' }}>
+        <S.ProfileArea className="profileArea">
           <ProfileSidebar githubUser={usuarioAleatorio} />
-        </div>
-        <div className="welcomeArea" style={{ gridArea: 'welcomeArea' }}>
+        </S.ProfileArea>
+        <S.WelcomeArea className="welcomeArea">
           <Box>
-            <h1 className="title">Bem vindo</h1>
-
+            <S.Title>Bem vindo(a)</S.Title>
             <OrkutNostalgicIconSet {...stats} />
           </Box>
-        </div>
-        <div
-          className="profileRelationsArea"
-          style={{ gridArea: 'profileRelationsArea' }}
-        >
-          <ProfileRelationsBoxWrapper>
-            <h2 className="smallTitle">
-              Pessoas da comunidade ({pessoasFavoritas.length})
-            </h2>
 
-            <ul>
-              {pessoasFavoritas.map((itemAtual) => (
-                <li key={itemAtual}>
-                  <a href={`/users/${itemAtual}`}>
-                    <img src={`https://github.com/${itemAtual}.png`} />
-                    <span>{itemAtual}</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </ProfileRelationsBoxWrapper>
-        </div>
+          <Box>
+            <h2>O que você deseja fazer?</h2>
+            <form onSubmit={handleSubmit}>
+              <div>
+                <input
+                  name="title"
+                  type="text"
+                  value={title}
+                  onChange={({ target }) => setTitle(target.value)}
+                  placeholder="Qual vai ser o nome da sua comunidade?"
+                  aria-label="Qual vai ser o nome da sua comunidade?"
+                />
+              </div>
+
+              <div>
+                <input
+                  name="image"
+                  type="text"
+                  value={image}
+                  onChange={({ target }) => setImage(target.value)}
+                  placeholder="Coloque uma ULR para usarmos de capa"
+                  aria-label="Coloque uma ULR para usarmos de capa"
+                />
+              </div>
+
+              <button>Criar comunidade</button>
+            </form>
+          </Box>
+        </S.WelcomeArea>
+        <S.ProfileRelationsArea className="profileRelationsArea">
+          <ProfileRelations
+            title="Pessoas da comunidade"
+            array={pessoasFavoritas}
+          />
+        </S.ProfileRelationsArea>
       </MainGrid>
     </>
   );

@@ -14,21 +14,9 @@ const Box = styled.div`
     text-decoration: none;
     font-weight: 800;
   }
-  .title {
-    font-size: 32px;
-    font-weight: 400;
-    margin-bottom: 20px;
-  }
   .subTitle {
     font-size: 18px;
     font-weight: 400;
-    margin-bottom: 20px;
-  }
-  .smallTitle {
-    margin-bottom: 20px;
-    font-size: 16px;
-    font-weight: 700;
-    color: #333333;
     margin-bottom: 20px;
   }
   hr {
