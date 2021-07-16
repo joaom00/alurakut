@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const ProfileArea = styled.div`
   display: none;
@@ -17,7 +17,20 @@ export const ProfileRelationsArea = styled.div`
 `;
 
 export const Title = styled.h1`
-  font-size: 32px;
-  font-weight: 400;
-  margin-bottom: 20px;
+  ${({ theme }) => css`
+    font-size: 3.2rem;
+    font-weight: ${theme.font.normal};
+    margin-bottom: ${theme.spacings.xlarge};
+    color: ${theme.colors.highContrast};
+  `}
+`;
+
+export const SmallTitle = styled.h2`
+  ${({ theme }) => css`
+    margin-bottom: 20px;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: ${theme.colors.highContrast};
+    margin-bottom: 20px;
+  `}
 `;

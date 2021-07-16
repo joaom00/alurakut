@@ -1,18 +1,18 @@
 import * as S from './styles';
 
-const ProfileRelations = ({ title, array }) => {
+const ProfileRelations = ({ title, items }) => {
   return (
     <S.Wrapper>
       <S.SmallTitle>
-        {title} ({array.slice(0, 6).length})
+        {title} ({items.length})
       </S.SmallTitle>
 
       <ul>
-        {array.slice(0, 6).map((itemAtual) => (
-          <li key={itemAtual}>
-            <a href={`/users/${itemAtual}`}>
-              <img src={`https://github.com/${itemAtual}.png`} />
-              <span>{itemAtual}</span>
+        {items.map((itemAtual) => (
+          <li key={itemAtual.id}>
+            <a href={`/users/${itemAtual.login}`}>
+              <img src={`https://github.com/${itemAtual.login}.png`} />
+              <span>{itemAtual.login}</span>
             </a>
           </li>
         ))}

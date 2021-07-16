@@ -5,10 +5,10 @@ import config from '../../config';
 export const Wrapper = styled.header`
   ${({ theme }) => css`
     width: 100%;
-    background-color: ${theme.colors.backgroundQuinary};
+    background-color: ${theme.colors.backgroundElevateThree};
 
     .container {
-      background-color: ${theme.colors.backgroundQuinary};
+      background-color: ${theme.colors.backgroundElevateThree};
       padding: ${theme.spacings.xxsmall} ${theme.spacings.large};
       max-width: ${theme.grid.container};
       margin: auto;
@@ -43,7 +43,7 @@ export const Wrapper = styled.header`
           text-decoration: none;
           &:after {
             content: ' ';
-            background-color: #5292c1;
+            background-color: ${theme.colors.lowContrast};
             display: block;
             position: absolute;
             width: 1px;

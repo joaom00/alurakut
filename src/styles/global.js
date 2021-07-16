@@ -17,7 +17,7 @@ ${({ theme }) => css`
   body {
     font-family: ${theme.font.family};
     font-size: ${theme.font.sizes.medium};
-    background-color: '#181621';
+    background-color: ${theme.colors.background};
   }
 
   img {
