@@ -1,3 +1,6 @@
+import React from "react";
+import * as S from "./styles";
+
 const Tabs = ({ defaultIndex = 0, children }) => {
   const [bindIndex, setBindIndex] = React.useState(defaultIndex);
 
@@ -5,23 +8,25 @@ const Tabs = ({ defaultIndex = 0, children }) => {
     setBindIndex(newIndex);
   }
 
-  const items = children.filter((item) => item.type.name === 'TabItem');
+  const items = children?.filter((item) => item.type.name === "TabItem");
 
   return (
-    <div>
+    <>
       <div>
-        {items.map(({ props: { index, label } }) => (
-          <button key={index} onClick={() => changeTab(index)}>
+        {items?.map(({ props: { index, label } }) => (
+          <S.TabButton key={index} onClick={() => changeTab(index)}>
             {label}
-          </button>
+          </S.TabButton>
         ))}
       </div>
-      <div>
-        {items.map(({ props }) => (
-          <div key={props.index}></div>
+      <S.TabViewWrapper>
+        {items?.map(({ props }) => (
+          <S.TabView isSelected={props.index === bindIndex} key={props.index}>
+            {props.children}
+          </S.TabView>
         ))}
-      </div>
-    </div>
+      </S.TabViewWrapper>
+    </>
   );
 };
 

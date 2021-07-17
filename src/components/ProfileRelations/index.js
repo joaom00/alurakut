@@ -1,4 +1,4 @@
-import * as S from './styles';
+import * as S from './styles'
 
 const ProfileRelations = ({ title, items }) => {
   return (
@@ -11,14 +11,21 @@ const ProfileRelations = ({ title, items }) => {
         {items.map((itemAtual) => (
           <li key={itemAtual.id}>
             <a href={`/users/${itemAtual.login}`}>
-              <img src={`https://github.com/${itemAtual.login}.png`} />
+              <img
+                alt="Imagem da miniatura"
+                src={
+                  itemAtual.login
+                    ? `https://github.com/${itemAtual.login}.png`
+                    : itemAtual.imageUrl
+                }
+              />
               <span>{itemAtual.login}</span>
             </a>
           </li>
         ))}
       </ul>
     </S.Wrapper>
-  );
-};
+  )
+}
 
-export default ProfileRelations;
+export default ProfileRelations

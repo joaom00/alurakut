@@ -1,19 +1,19 @@
-import styled, { css } from 'styled-components';
+import styled, { css } from "styled-components";
 
 export const ProfileArea = styled.div`
   display: none;
-  grid-area: 'profileArea';
+  grid-area: "profileArea";
   @media (min-width: 860px) {
     display: block;
   }
 `;
 
 export const WelcomeArea = styled.div`
-  grid-area: 'welcomeArea';
+  grid-area: "welcomeArea";
 `;
 
 export const ProfileRelationsArea = styled.div`
-  grid-area: 'profileRelationsArea';
+  grid-area: "profileRelationsArea";
 `;
 
 export const Title = styled.h1`
@@ -27,10 +27,9 @@ export const Title = styled.h1`
 
 export const SmallTitle = styled.h2`
   ${({ theme }) => css`
-    margin-bottom: 20px;
-    font-size: 2.4rem;
-    font-weight: 700;
+    margin-bottom: ${theme.spacings.xlarge};
+    font-size: 1.8rem;
+    font-weight: ${theme.font.normal};
     color: ${theme.colors.highContrast};
-    margin-bottom: 20px;
   `}
 `;

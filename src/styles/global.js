@@ -1,4 +1,4 @@
-import { createGlobalStyle, css } from 'styled-components';
+import { createGlobalStyle, css } from 'styled-components'
 
 const GlobalStyle = createGlobalStyle`
 ${({ theme }) => css`
@@ -85,8 +85,8 @@ ${({ theme }) => css`
     }
     .logoArea {
       grid-area: logoArea;
-      background-color: var(--backgroundTertiary);
-      border-radius: var(--commonRadius);
+      background-color: ${theme.colors.backgroundElevateThree};
+      border-radius: ${theme.border.small};
       padding: var(--gutter);
       text-align: center;
       display: flex;
@@ -105,7 +105,7 @@ ${({ theme }) => css`
           margin-bottom: 12px;
         }
         strong {
-          color: var(--colorQuarternary);
+          color: ${theme.colors.primary};
         }
       }
       img {
@@ -127,8 +127,8 @@ ${({ theme }) => css`
         padding: var(--gutter);
         padding-left: 50px;
         padding-right: 50px;
-        background-color: var(--backgroundSecondary);
-        border-radius: var(--commonRadius);
+        background-color: ${theme.colors.backgroundElevateThree};
+        border-radius: ${theme.border.small};
         flex: 1;
         &:not(:last-child) {
           margin-bottom: var(--gap);
@@ -144,15 +144,15 @@ ${({ theme }) => css`
         }
         a {
           text-decoration: none;
-          color: var(--colorPrimary);
+          color: ${theme.colors.highContrast};
         }
         input {
           width: 100%;
           display: block;
-          border: 1px solid var(--textQuarternaryColor);
+          border: 1px solid ${theme.colors.accent};
           padding: 12px;
-          background-color: var(--backgroundTertiary);
-          border-radius: var(--commonRadius);
+          background-color: ${theme.colors.backgroundElevateThree};
+          border-radius: ${theme.border.small};
           margin-top: 24px;
           margin-bottom: 16px;
         }
@@ -161,28 +161,28 @@ ${({ theme }) => css`
           display: block;
           border: 0;
           padding: 12px;
-          border-radius: var(--commonRadius);
-          background-color: var(--colorPrimary);
-          color: var(--textSecondaryColor);
+          border-radius: ${theme.border.small};
+          background-color: ${theme.colors.backgroundElevateThree};
+          color: ${theme.colors.highContrast};
         }
       }
     }
     .footerArea {
       grid-area: footerArea;
-      background-color: var(--backgroundQuarternary);
-      border-radius: var(--commonRadius);
+      background-color: ${theme.colors.backgroundElevateThree};
+      border-radius: ${theme.border.small};
       padding: 8px;
       p {
         font-size: 12px;
         text-align: center;
         a {
           text-decoration: none;
-          color: var(--colorPrimary);
+          color: ${theme.colors.primary};
         }
       }
     }
   }
 `}
-`;
+`
 
-export default GlobalStyle;
+export default GlobalStyle
