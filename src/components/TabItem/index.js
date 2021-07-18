@@ -1,5 +1,5 @@
-const TabItem = ({ children }) => {
-  return { children };
-};
+const TabItem = ({ index, label, children }) => {
+  return <div>{children}</div>
+}
 
-export default TabItem;
+export default TabItem

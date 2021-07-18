@@ -1,12 +1,12 @@
-import Box from "../Box";
-import AlurakutProfileSidebarMenuDefault from "../AlurakutProfileSidebarMenuDefault";
+import AlurakutProfileSidebarMenuDefault from '../AlurakutProfileSidebarMenuDefault'
+import * as S from './styles'
 
 const ProfileSidebar = ({ githubUser }) => {
   return (
-    <Box>
+    <S.Wrapper>
       <img
         src={`https://github.com/${githubUser}.png`}
-        style={{ borderRadius: "8px" }}
+        style={{ borderRadius: '8px' }}
         alt="Foto de João Pedro"
       />
       <hr />
@@ -15,8 +15,8 @@ const ProfileSidebar = ({ githubUser }) => {
       <hr />
 
       <AlurakutProfileSidebarMenuDefault />
-    </Box>
-  );
-};
+    </S.Wrapper>
+  )
+}
 
-export default ProfileSidebar;
+export default ProfileSidebar

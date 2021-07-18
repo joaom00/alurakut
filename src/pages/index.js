@@ -1,4 +1,7 @@
 import React from 'react'
+import nookies from 'nookies'
+import jwt from 'jsonwebtoken'
+
 import AlurakutMenu from '../components/AlurakutMenu'
 import MainGrid from '../components/MainGrid'
 import Box from '../components/Box'
@@ -12,8 +15,6 @@ import TextField from '../components/TextField'
 
 import * as S from '../styles/home'
 
-const githubUser = 'joaom00'
-
 const stats = {
   recados: 0,
   fotos: 0,
@@ -22,28 +23,29 @@ const stats = {
   mensagens: 0
 }
 
-export default function Home() {
+export default function Home(props) {
+  const githubUser = props.githubUser
   const [following, setFollowing] = React.useState([])
   const [followers, setFollowers] = React.useState([])
   const [communities, setCommunities] = React.useState([])
 
   React.useEffect(() => {
-    fetch('https://api.github.com/users/joaom00/following?per_page=6').then(
-      async (response) => {
-        const data = await response.json()
-        setFollowing(data)
-      }
-    )
-  }, [])
+    fetch(
+      `https://api.github.com/users/${githubUser}/following?per_page=6`
+    ).then(async (response) => {
+      const data = await response.json()
+      setFollowing(data)
+    })
+  }, [githubUser])
 
   React.useEffect(() => {
-    fetch('https://api.github.com/users/joaom00/followers?per_page=6').then(
-      async (response) => {
-        const data = await response.json()
-        setFollowers(data)
-      }
-    )
-  }, [])
+    fetch(
+      `https://api.github.com/users/${githubUser}/followers?per_page=6`
+    ).then(async (response) => {
+      const data = await response.json()
+      setFollowers(data)
+    })
+  }, [githubUser])
 
   React.useEffect(() => {
     fetch('https://graphql.datocms.com/', {
@@ -74,8 +76,8 @@ export default function Home() {
 
     const newCommunity = {
       title: form.title.value,
-      imageUrl: form.image.value,
-      creatorSlug: 'joaom00'
+      image_url: form.image.value,
+      creator_slug: 'joaom00'
     }
 
     const response = await fetch('/api/comunidades', {
@@ -126,7 +128,7 @@ export default function Home() {
                 <Form buttonText="Enviar comentário">
                   <TextField
                     name="comment"
-                    placeholder="O que você deseja escrever?"
+                    placeholder="O que você está pensando hoje?"
                   />
                 </Form>
               </TabItem>
@@ -141,4 +143,30 @@ export default function Home() {
       </MainGrid>
     </>
   )
+}
+
+export async function getServerSideProps(context) {
+  const cookies = nookies.get(context)
+  const token = cookies.USER_TOKEN
+  const { isAuthenticated } = await fetch('http://localhost:3000/api/auth', {
+    headers: {
+      Authorization: token
+    }
+  }).then((resposta) => resposta.json())
+
+  if (!isAuthenticated) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false
+      }
+    }
+  }
+
+  const { githubUser } = jwt.decode(token)
+  return {
+    props: {
+      githubUser
+    }
+  }
 }

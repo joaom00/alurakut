@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled, { css } from 'styled-components'
 
 export const Wrapper = styled.div`
   ${({ theme, isMenuOpen }) => css`
@@ -28,7 +28,7 @@ export const Wrapper = styled.div`
     }
     .boxLink {
       font-size: ${theme.font.sizes.large};
-      color: ${theme.colors.colorPrimary};
+      color: ${theme.colors.primary};
       -webkit-text-decoration: none;
       text-decoration: none;
       font-weight: ${theme.font.bold};
@@ -41,4 +41,4 @@ export const Wrapper = styled.div`
       border-bottom-color: #ecf2fa;
     }
   `}
-`;
+`

@@ -1,12 +1,13 @@
-import * as S from "./styles";
+import * as S from './styles'
+import Button from '../Button'
 
 const Form = ({ handleSubmit, buttonText, children }) => {
   return (
-    <form onSubmit={handleSubmit}>
+    <S.Wrapper onSubmit={handleSubmit}>
       {children}
-      <S.Button>{buttonText}</S.Button>
-    </form>
-  );
-};
+      <Button>{buttonText}</Button>
+    </S.Wrapper>
+  )
+}
 
-export default Form;
+export default Form

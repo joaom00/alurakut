@@ -1,6 +1,6 @@
-import styled, { css } from 'styled-components';
+import styled, { css } from 'styled-components'
 
-import config from '../../config';
+import config from '../../config'
 
 export const Wrapper = styled.header`
   ${({ theme }) => css`
@@ -18,16 +18,6 @@ export const Wrapper = styled.header`
       z-index: 101;
       @media (min-width: 860px) {
         justify-content: flex-start;
-      }
-
-      button {
-        border: 0;
-        background: transparent;
-        align-self: center;
-        display: inline-block;
-        @media (min-width: 860px) {
-          display: none;
-        }
       }
 
       nav {
@@ -56,8 +46,8 @@ export const Wrapper = styled.header`
         }
       }
       input {
-        color: ${theme.colors.backgroundTertiary};
-        background: ${theme.colors.anotherElement};
+        color: ${theme.colors.highContrast};
+        background: ${theme.colors.backgroundElevateTwo};
         padding: ${theme.spacings.xsmall} 4.2rem;
         border: 0;
         background-image: url(${`${config.BASE_URL}/icons/search.svg`});
@@ -66,13 +56,25 @@ export const Wrapper = styled.header`
         border-radius: 1000px;
         font-size: ${theme.font.sizes.xsmall};
         ::placeholder {
-          color: ${theme.colors.backgroundTertiary};
+          color: ${theme.colors.highContrast};
           opacity: 1;
         }
       }
     }
   `}
-`;
+`
+
+export const MenuButton = styled.button`
+  ${({ theme }) => css`
+    border: 0;
+    background: transparent;
+    align-self: center;
+    display: inline-block;
+    @media (min-width: 860px) {
+      display: none;
+    }
+  `}
+`
 
 export const Logo = styled.img`
   ${({ theme }) => css`
@@ -81,4 +83,14 @@ export const Logo = styled.img`
     border-radius: 1000px;
     height: 3.4rem;
   `}
-`;
+`
+
+export const Button = styled.button`
+  ${({ theme }) => css`
+    display: block;
+    background: none;
+    border: 0;
+    color: ${theme.colors.highContrast};
+    margin-right: ${theme.spacings.small};
+  `}
+`

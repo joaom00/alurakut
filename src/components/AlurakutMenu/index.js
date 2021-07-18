@@ -1,28 +1,35 @@
-import React from 'react';
-import NextLink from 'next/link';
-import config from '../../config';
+import React from 'react'
+import NextLink from 'next/link'
+import nookies from 'nookies'
 
-import AlurakutMenuProfileSidebar from '../AlurakutMenuProfileSidebar';
+import config from '../../config'
 
-import * as S from './styles';
+import AlurakutMenuProfileSidebar from '../AlurakutMenuProfileSidebar'
 
-const v = '1';
+import * as S from './styles'
+
+const v = '1'
 const menuItems = [
   { name: 'Inicio', slug: '/' },
   { name: 'Amigos', slug: '/amigos' },
-  { name: 'Comunidades', slug: '/comunidades' },
-];
+  { name: 'Comunidades', slug: '/comunidades' }
+]
 
 function Link({ href, children, ...props }) {
   return (
     <NextLink href={href} passHref>
       <a {...props}>{children}</a>
     </NextLink>
-  );
+  )
+}
+
+function handleLogout(event) {
+  event.preventDefault()
+  nookies.destroy('USER_TOKEN')
 }
 
 const AlurakutMenu = ({ githubUser }) => {
-  const [isMenuOpen, setMenuState] = React.useState(false);
+  const [isMenuOpen, setMenuState] = React.useState(false)
   return (
     <S.Wrapper>
       <div className="container">
@@ -40,27 +47,30 @@ const AlurakutMenu = ({ githubUser }) => {
         </nav>
 
         <nav>
-          <a href={`/logout`}>Sair</a>
+          <S.Button onClick={handleLogout}>Sair</S.Button>
           <div>
             <input placeholder="Pesquisar no Orkut" />
           </div>
         </nav>
 
-        <button onClick={() => setMenuState(!isMenuOpen)}>
+        <S.MenuButton onClick={() => setMenuState(!isMenuOpen)}>
           {isMenuOpen && (
-            <img src={`${config.BASE_URL}/icons/menu-open.svg?v=${v}`} />
+            <img src={`${config.BASE_URL}/icons/menu-open.svg?v=${v}`} alt="" />
           )}
           {!isMenuOpen && (
-            <img src={`${config.BASE_URL}/icons/menu-closed.svg?v=${v}`} />
+            <img
+              src={`${config.BASE_URL}/icons/menu-closed.svg?v=${v}`}
+              alt=""
+            />
           )}
-        </button>
+        </S.MenuButton>
       </div>
       <AlurakutMenuProfileSidebar
         githubUser={githubUser}
         isMenuOpen={isMenuOpen}
       />
     </S.Wrapper>
-  );
-};
+  )
+}
 
-export default AlurakutMenu;
+export default AlurakutMenu
