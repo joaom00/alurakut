@@ -1,3 +1,5 @@
+import React from 'react'
+
 const Tabs = ({ defaultIndex = 0, children }) => {
   const [bindIndex, setBindIndex] = React.useState(defaultIndex);
 
@@ -5,19 +7,19 @@ const Tabs = ({ defaultIndex = 0, children }) => {
     setBindIndex(newIndex);
   }
 
-  const items = children.filter((item) => item.type.name === 'TabItem');
+  const items = children?.filter((item) => item.type.name === 'TabItem');
 
   return (
     <div>
       <div>
-        {items.map(({ props: { index, label } }) => (
+        {items?.map(({ props: { index, label } }) => (
           <button key={index} onClick={() => changeTab(index)}>
             {label}
           </button>
         ))}
       </div>
       <div>
-        {items.map(({ props }) => (
+        {items?.map(({ props }) => (
           <div key={props.index}></div>
         ))}
       </div>

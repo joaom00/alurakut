@@ -1,35 +1,35 @@
-import React from 'react';
-import AlurakutMenu from '../components/AlurakutMenu';
-import MainGrid from '../components/MainGrid';
-import Box from '../components/Box';
-import ProfileSidebar from '../components/ProfileSidebar';
-import ProfileRelations from '../components/ProfileRelations';
-import OrkutNostalgicIconSet from '../components/OrkutNostalgicIconSet';
-import Tabs from '../components/Tabs';
+import React from 'react'
+import AlurakutMenu from '../components/AlurakutMenu'
+import MainGrid from '../components/MainGrid'
+import Box from '../components/Box'
+import ProfileSidebar from '../components/ProfileSidebar'
+import ProfileRelations from '../components/ProfileRelations'
+import OrkutNostalgicIconSet from '../components/OrkutNostalgicIconSet'
+import Tabs from '../components/Tabs'
 
-import * as S from '../styles/home';
+import * as S from '../styles/home'
 
-const githubUser = 'joaom00';
+const githubUser = 'joaom00'
 
 const stats = {
   recados: 0,
   fotos: 0,
   videos: 0,
   fas: 0,
-  mensagens: 0,
-};
+  mensagens: 0
+}
 
 export default function Home() {
-  const [following, setFollowing] = React.useState([]);
+  const [following, setFollowing] = React.useState([])
 
   React.useEffect(() => {
     fetch('https://api.github.com/users/joaom00/following?per_page=6').then(
       async (response) => {
-        const data = await response.json();
-        setFollowing(data);
+        const data = await response.json()
+        setFollowing(data)
       }
-    );
-  }, []);
+    )
+  }, [])
 
   // function handleSubmit(event) {
   //   event.preventDefault();
@@ -79,5 +79,5 @@ export default function Home() {
         </S.ProfileRelationsArea>
       </MainGrid>
     </>
-  );
+  )
 }
