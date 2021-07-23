@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled, { css } from "styled-components";
 
 const Box = styled.div`
   ${({ theme }) => css`
@@ -29,7 +29,7 @@ const Box = styled.div`
     input {
       width: 100%;
       background-color: #f4f4f4;
-      color: #333333;
+      color: ${theme.colors.background};
       border: 0;
       padding: 14px 16px;
       margin-bottom: 14px;
@@ -38,13 +38,6 @@ const Box = styled.div`
         color: #333333;
         opacity: 1;
       }
-    }
-    button {
-      border: 0;
-      padding: 8px 12px;
-      color: #ffffff;
-      border-radius: 10000px;
-      background-color: #6f92bb;
     }
   `}
 `;

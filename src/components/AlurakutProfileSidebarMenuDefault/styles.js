@@ -1,10 +1,10 @@
-import styled, { css } from 'styled-components';
+import styled, { css } from 'styled-components'
 
 export const Wrapper = styled.div`
   ${({ theme }) => css`
     a {
       font-size: ${theme.font.sizes.xsmall};
-      color: ${theme.colors.colorPrimary};
+      color: ${theme.colors.highContrast};
       margin-bottom: ${theme.spacings.large};
       display: flex;
       align-items: center;
@@ -17,4 +17,4 @@ export const Wrapper = styled.div`
       }
     }
   `}
-`;
+`

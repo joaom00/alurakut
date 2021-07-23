@@ -1,6 +1,6 @@
-import AlurakutProfileSidebarMenuDefault from '../AlurakutProfileSidebarMenuDefault';
+import AlurakutProfileSidebarMenuDefault from '../AlurakutProfileSidebarMenuDefault'
 
-import * as S from './styles';
+import * as S from './styles'
 
 const AlurakutMenuProfileSidebar = ({ githubUser, isMenuOpen }) => {
   return (
@@ -9,6 +9,7 @@ const AlurakutMenuProfileSidebar = ({ githubUser, isMenuOpen }) => {
         <img
           src={`https://github.com/${githubUser}.png`}
           style={{ borderRadius: '8px' }}
+          alt=""
         />
         <hr />
         <p>
@@ -21,7 +22,7 @@ const AlurakutMenuProfileSidebar = ({ githubUser, isMenuOpen }) => {
         <AlurakutProfileSidebarMenuDefault />
       </div>
     </S.Wrapper>
-  );
-};
+  )
+}
 
-export default AlurakutMenuProfileSidebar;
+export default AlurakutMenuProfileSidebar
