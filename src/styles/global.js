@@ -18,6 +18,7 @@ ${({ theme }) => css`
     font-family: ${theme.font.family};
     font-size: ${theme.font.sizes.medium};
     background-color: ${theme.colors.background};
+    color: ${theme.colors.highContrast};
   }
 
   img {

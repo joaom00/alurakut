@@ -1,70 +1,46 @@
 import React from 'react'
-// import nookies from 'nookies'
-// import { useRouter } from 'next/router'
-import useAsync from '../hooks/useAsync'
+import { setCookie } from 'nookies'
+import { useRouter } from 'next/router'
+import jwt from 'jsonwebtoken'
 
 import Button from '../components/Button'
 
 import * as S from '../styles/login'
 
 export default function LoginScreen() {
-  const [githubUser, setGithubUser] = React.useState('')
-  // const router = useRouter()
-  const { data, run, isFetching } = useAsync(handleGetUserData, {
-    enabled: false
-  })
+  const router = useRouter()
 
-  async function handleGetUserData() {
-    const response = await fetch(`https://github.com/${githubUser}`)
-    return response
+  async function handleGetUserData(githubUser) {
+    const token = jwt.sign({}, 'secret', {
+      subject: githubUser,
+      expiresIn: '1d'
+    })
+    const response = await fetch('http://localhost:3000/api/auth', {
+      headers: {
+        Authorization: token
+      }
+    })
+    const data = await response.json()
+    if (data.isAuthenticated) {
+      setCookie(null, 'USER_TOKEN', data.token)
+      router.push('/')
+    } else {
+      // TODO: Mandar notificação
+      console.error('Usuário inválido')
+    }
   }
 
   function handleSubmit(event) {
     event.preventDefault()
-    const form = event.target
-    setGithubUser(form.user.value)
-    run()
+    const { username } = event.target
+    handleGetUserData(username.value)
   }
-
-  // const { data, isFetching, run } = useAsync(
-  //   'https://alurakut.vercel.app/api/login',
-  //   {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify({ githubUser })
-  //   },
-  //   false
-  // )
-
-  // function handleSubmit(event) {
-  //   event.preventDefault()
-  //   const form = event.target
-  //   setGithubUser(form.user.value)
-  //   fetch('https://alurakut.vercel.app/api/login', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify({ githubUser })
-  //   }).then(async (respostaDoServer) => {
-  //     const dadosDaResposta = await respostaDoServer.json()
-  //     const token = dadosDaResposta.token
-  //     nookies.set(null, 'USER_TOKEN', token, {
-  //       path: '/',
-  //       maxAge: 86400 * 7
-  //     })
-  //     router.push('/')
-  //   })
-  // }
 
   return (
     <S.Wrapper>
       <S.LoginScreen>
         <S.LogoArea>
           <img src="https://alurakut.vercel.app/logo.svg" alt="" />
-          {data}
           <S.Paragraph>
             <S.Strong>Conecte-se</S.Strong> aos seus amigos e familiares usando
             recados e mensagens instantâneas
@@ -84,9 +60,9 @@ export default function LoginScreen() {
             <S.Paragraph>
               Acesse agora mesmo com seu usuário do <S.Strong>GitHub</S.Strong>!
             </S.Paragraph>
-            <S.Input placeholder="Usuário" name="user" />
+            <S.Input placeholder="Usuário" name="username" />
             <Button fullWidth type="submit">
-              {isFetching ? 'Carregando...' : 'Login'}
+              Login
             </Button>
           </S.FormAreaBox>
 

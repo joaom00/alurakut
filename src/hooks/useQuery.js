@@ -1,14 +1,17 @@
 import React from 'react'
 
-const useAsync = (fn, options) => {
+const mapInstance = new Map()
+
+const useQuery = (queryKey, queryFn, queryOptions) => {
+  const queryKeyRef = React.useRef(mapInstance)
+  const cancelRequest = React.useRef(!queryOptions?.enabled ?? false)
+  const queryKeys = queryKeyRef.current
+
   const initialState = {
     status: 'idle',
     data: null,
     error: null
   }
-
-  // const cache = React.useRef({})
-  const cancelRequest = React.useRef(!options.enabled)
 
   const fetchReducer = (state, action) => {
     switch (action.type) {
@@ -28,37 +31,44 @@ const useAsync = (fn, options) => {
   const fetchData = React.useCallback(async () => {
     dispatch({ type: 'fetching' })
 
-    try {
-      const response = await fn()
-      const data = await response.json()
+    if (queryKeys.has(queryKey)) {
+      dispatch({ type: 'success', payload: queryKeys.get(queryKey) })
+    } else {
+      try {
+        console.log(queryKey)
+        const response = await queryFn()
+        queryKeys.set(queryKey, response)
 
-      if (cancelRequest.current) return
+        if (cancelRequest.current) return
 
-      dispatch({ type: 'success', payload: data })
-    } catch (error) {
-      if (cancelRequest.current) return
+        dispatch({ type: 'success', payload: response })
+      } catch (error) {
+        if (cancelRequest.current) return
+        console.error(error)
 
-      dispatch({ type: 'error', payload: error })
+        dispatch({ type: 'error', payload: error })
+      }
     }
-  }, [fn])
+  }, [])
 
   React.useEffect(() => {
-    if (cancelRequest) return
+    if (cancelRequest.current) return
 
     fetchData()
+    console.log(queryKeys)
 
     return () => {
       cancelRequest.current = true
     }
-  }, [fetchData])
+  }, [])
 
   return {
     isFetching: state.status === 'fetching',
     isSuccess: state.status === 'success',
     isError: state.status === 'error',
-    run: fetchData,
+    refetch: fetchData,
     ...state
   }
 }
 
-export default useAsync
+export default useQuery

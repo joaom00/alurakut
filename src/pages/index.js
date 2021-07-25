@@ -12,6 +12,7 @@ import Tabs from '../components/Tabs'
 import TabItem from '../components/TabItem'
 import Form from '../components/Form'
 import TextField from '../components/TextField'
+import useQuery from '../hooks/useQuery'
 
 import * as S from '../styles/home'
 
@@ -23,32 +24,29 @@ const stats = {
   mensagens: 0
 }
 
-export default function Home(props) {
-  const githubUser = props.githubUser
-  const [following, setFollowing] = React.useState([])
-  const [followers, setFollowers] = React.useState([])
-  const [communities, setCommunities] = React.useState([])
+export default function Home({ githubUser }) {
+  const followingQuery = useQuery(['following'], handleFollowingQuery)
+  const followersQuery = useQuery(['followers'], handleFollowersQuery)
+  const communitiesQuery = useQuery(['communities'], handleCommunitiesQuery)
 
-  React.useEffect(() => {
-    fetch(
+  async function handleFollowingQuery() {
+    const response = await fetch(
       `https://api.github.com/users/${githubUser}/following?per_page=6`
-    ).then(async (response) => {
-      const data = await response.json()
-      setFollowing(data)
-    })
-  }, [githubUser])
+    )
+    const data = await response.json()
+    return data
+  }
 
-  React.useEffect(() => {
-    fetch(
+  async function handleFollowersQuery() {
+    const response = await fetch(
       `https://api.github.com/users/${githubUser}/followers?per_page=6`
-    ).then(async (response) => {
-      const data = await response.json()
-      setFollowers(data)
-    })
-  }, [githubUser])
+    )
+    const data = await response.json()
+    return data
+  }
 
-  React.useEffect(() => {
-    fetch('https://graphql.datocms.com/', {
+  async function handleCommunitiesQuery() {
+    const response = await fetch(`https://graphql.datocms.com/`, {
       method: 'POST',
       headers: {
         Authorization: '596b76c3fc528eef74441d4abf6285',
@@ -64,11 +62,11 @@ export default function Home(props) {
         }
       }`
       })
-    }).then(async (response) => {
-      const { data } = await response.json()
-      setCommunities(data.allCommunities)
     })
-  }, [])
+
+    const { data } = await response.json()
+    return data.allCommunities
+  }
 
   async function createCommunity(event) {
     event.preventDefault()
@@ -136,9 +134,9 @@ export default function Home(props) {
           </Box>
         </S.WelcomeArea>
         <S.ProfileRelationsArea className="profileRelationsArea">
-          <ProfileRelations title="Seguindo" items={following} />
-          <ProfileRelations title="Seguidores" items={followers} />
-          <ProfileRelations title="Comunidades" items={communities} />
+          <ProfileRelations title="Seguindo" items={followingQuery} />
+          <ProfileRelations title="Seguidores" items={followersQuery} />
+          <ProfileRelations title="Comunidades" items={communitiesQuery} />
         </S.ProfileRelationsArea>
       </MainGrid>
     </>
@@ -163,10 +161,10 @@ export async function getServerSideProps(context) {
     }
   }
 
-  const { githubUser } = jwt.decode(token)
+  const { sub } = jwt.decode(token)
   return {
     props: {
-      githubUser
+      githubUser: sub
     }
   }
 }

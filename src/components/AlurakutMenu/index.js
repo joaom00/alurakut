@@ -1,6 +1,6 @@
 import React from 'react'
 import NextLink from 'next/link'
-import nookies from 'nookies'
+import { destroyCookie } from 'nookies'
 
 import config from '../../config'
 
@@ -23,9 +23,9 @@ function Link({ href, children, ...props }) {
   )
 }
 
-function handleLogout(event) {
-  event.preventDefault()
-  nookies.destroy('USER_TOKEN')
+function handleLogout() {
+  console.log('botao de sair clicado')
+  destroyCookie(null, 'USER_TOKEN')
 }
 
 const AlurakutMenu = ({ githubUser }) => {
@@ -47,7 +47,9 @@ const AlurakutMenu = ({ githubUser }) => {
         </nav>
 
         <nav>
-          <S.Button onClick={handleLogout}>Sair</S.Button>
+          <S.Button type="button" onClick={handleLogout}>
+            Sair
+          </S.Button>
           <div>
             <input placeholder="Pesquisar no Orkut" />
           </div>
