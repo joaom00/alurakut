@@ -8,20 +8,16 @@ const ProfileRelations = ({ title, items }) => {
       </S.SmallTitle>
 
       <ul>
-        {items.isFetching
+        {items.isLoading
           ? 'Carregando...'
           : items.data?.map((itemAtual, index) => (
               <li key={index}>
                 <a href={`/users/${itemAtual.login}`}>
                   <img
                     alt="Imagem da miniatura"
-                    src={
-                      itemAtual.login
-                        ? `https://github.com/${itemAtual.login}.png`
-                        : itemAtual.imageUrl
-                    }
+                    src={itemAtual.avatar_url ?? itemAtual.imageUrl}
                   />
-                  <span>{itemAtual.login}</span>
+                  <span>{itemAtual.login ?? itemAtual.title}</span>
                 </a>
               </li>
             ))}
