@@ -12,7 +12,9 @@ import Tabs from '../components/Tabs'
 import TabItem from '../components/TabItem'
 import Form from '../components/Form'
 import TextField from '../components/TextField'
-import useQuery from '../hooks/useQuery'
+import Comment from '../components/Comment'
+
+import useAsync from '../hooks/useAsync'
 
 import * as S from '../styles/home'
 
@@ -25,9 +27,10 @@ const stats = {
 }
 
 export default function Home({ githubUser }) {
-  const followingQuery = useQuery(['following'], handleFollowingQuery)
-  const followersQuery = useQuery(['followers'], handleFollowersQuery)
-  const communitiesQuery = useQuery(['communities'], handleCommunitiesQuery)
+  const followingQuery = useAsync()
+  const followersQuery = useAsync()
+  const communitiesQuery = useAsync()
+  const commentsQuery = useAsync()
 
   async function handleFollowingQuery() {
     const response = await fetch(
@@ -55,12 +58,12 @@ export default function Home({ githubUser }) {
       },
       body: JSON.stringify({
         query: `query {
-        allCommunities {
-          title
-          imageUrl
-          creatorSlug
-        }
-      }`
+          allCommunities {
+            title
+            imageUrl
+            creatorSlug
+          }
+        }`
       })
     })
 
@@ -68,17 +71,39 @@ export default function Home({ githubUser }) {
     return data.allCommunities
   }
 
+  async function handleCommentsQuery() {
+    const response = await fetch(`https://graphql.datocms.com/`, {
+      method: 'POST',
+      headers: {
+        Authorization: '596b76c3fc528eef74441d4abf6285',
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      body: JSON.stringify({
+        query: `query {
+          allComments {
+            comment
+            user
+          }
+        }`
+      })
+    })
+
+    const { data } = await response.json()
+    return data.allComments
+  }
+
   async function createCommunity(event) {
     event.preventDefault()
-    const form = event.target
+    const { title, image } = event.target
 
     const newCommunity = {
-      title: form.title.value,
-      image_url: form.image.value,
+      title: title.value,
+      image_url: image.value,
       creator_slug: 'joaom00'
     }
 
-    const response = await fetch('/api/comunidades', {
+    await fetch('/api/comunidades', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -86,10 +111,44 @@ export default function Home({ githubUser }) {
       body: JSON.stringify(newCommunity)
     })
 
-    const data = await response.json()
-    const community = data.community
-    setCommunities((oldCommunities) => [community, ...oldCommunities])
+    communitiesQuery.run(handleCommunitiesQuery())
   }
+
+  async function createComment(event) {
+    event.preventDefault()
+    const { comment } = event.target
+
+    const newComment = {
+      comment: comment.value,
+      user: 'joaom00'
+    }
+
+    await fetch('/api/comentarios', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newComment)
+    })
+
+    commentsQuery.run(handleCommentsQuery())
+  }
+
+  React.useEffect(() => {
+    followingQuery.run(handleFollowingQuery())
+  }, [followingQuery.run])
+
+  React.useEffect(() => {
+    followersQuery.run(handleFollowersQuery())
+  }, [followersQuery.run])
+
+  React.useEffect(() => {
+    communitiesQuery.run(handleCommunitiesQuery())
+  }, [communitiesQuery.run])
+
+  React.useEffect(() => {
+    commentsQuery.run(handleCommentsQuery())
+  }, [handleCommentsQuery.run])
 
   return (
     <>
@@ -123,7 +182,10 @@ export default function Home({ githubUser }) {
                 </Form>
               </TabItem>
               <TabItem index="2" label="Escrever comentário">
-                <Form buttonText="Enviar comentário">
+                <Form
+                  buttonText="Enviar comentário"
+                  handleSubmit={createComment}
+                >
                   <TextField
                     name="comment"
                     placeholder="O que você está pensando hoje?"
@@ -131,6 +193,14 @@ export default function Home({ githubUser }) {
                 </Form>
               </TabItem>
             </Tabs>
+          </Box>
+
+          <Box>
+            <S.SmallTitle>Comentários</S.SmallTitle>
+            {commentsQuery.isLoading ? 'Carregando...' : null}
+            {commentsQuery.data?.map(({ comment, user }, index) => (
+              <Comment key={index} comment={comment} user={user} />
+            ))}
           </Box>
         </S.WelcomeArea>
         <S.ProfileRelationsArea className="profileRelationsArea">
