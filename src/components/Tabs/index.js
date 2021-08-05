@@ -9,7 +9,6 @@ const Tabs = ({ defaultIndex = 0, children }) => {
 
   function changeTab(newIndex) {
     setBindIndex(newIndex)
-    console.log('botao clicado')
   }
 
   const items = children?.filter((item) => item.type.name === 'TabItem')

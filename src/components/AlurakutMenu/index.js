@@ -24,7 +24,6 @@ function Link({ href, children, ...props }) {
 }
 
 function handleLogout() {
-  console.log('botao de sair clicado')
   destroyCookie(null, 'USER_TOKEN')
 }
 
