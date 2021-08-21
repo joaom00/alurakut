@@ -58,7 +58,7 @@ export default function Home({ githubUser }) {
       },
       body: JSON.stringify({
         query: `query {
-          allCommunities {
+          allCommunities(first: 6) {
             title
             imageUrl
             creatorSlug
